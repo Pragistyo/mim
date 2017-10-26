@@ -1,6 +1,8 @@
+require('dotenv').config();
+
 const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
-const key = 'memegen'
+const key = process.env.JWT_SECRET;
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
