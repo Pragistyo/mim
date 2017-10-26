@@ -13,6 +13,7 @@ function statusChangeCallback(response) {
         testAPI();
     } else {
         // The person is not logged into your app or we are unable to tell.
+        localStorage.clear()
         document.getElementById('status').innerHTML = 'Please log ' +
             'into this app.';
     }
@@ -68,7 +69,7 @@ function testAPI() {
     console.log('Welcome!  Fetching your information.... ');
     FB.api('/me', { fields: ['id', 'name','email','picture.type(large)'] }, function (response) {
         console.log('Successful login for: ' + response.name);
-        console.log(response);
+        // console.log(typeof response.id);
         localStorage.setItem('userdata', JSON.stringify({id:response.id, name:response.name, email:response.email, pictUrl:response.picture.data.url}))
         document.getElementById('status').innerHTML =
             'Thanks for logging in, ' + response.name + '!';
