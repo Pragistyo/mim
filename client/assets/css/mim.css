@@ -3,6 +3,52 @@
   src: url("../fonts/Pacifico.ttf");
 }
 
+body {
+  padding-top: 70px;
+  padding-bottom: 15px;
+}
+
+@media (min-width: 552px) {
+  .meme a.btn {
+    width: 500px!important;
+    font-size: 24px!important;
+  }
+}
+
+.meme a.btn {
+  width: 100%;
+  font-size: 16px;
+}
+
+@media (min-width: 768px) {
+  .container-small {
+    width: 600px;
+  }
+  .container-large {
+    width: 970px;
+  }
+}
+@media (min-width: 992px) {
+  .container-small {
+    width: 600px;
+  }
+  .container-large {
+    width: 1170px;
+  }
+}
+@media (min-width: 1200px) {
+  .container-small {
+    width: 800px;
+  }
+  .container-large {
+    width: 1500px;
+  }
+}
+
+.container-small, .container-large {
+  max-width: 100%;
+}
+
 .navbar-inverse {
   border-radius: 0px!important;
 }
@@ -10,4 +56,23 @@
 .navbar-inverse .navbar-brand {
   font-family: Pacifico;
   font-size: 24px;
+}
+
+.thumbnail {
+  border: none;
+}
+
+.thumbnail img {
+  border: 1px solid #f0f0f0;
+  width: 500px;
+  height: auto;
+}
+
+.meme {
+  text-align: center;
+}
+
+.meme .btn {
+  border-top-right-radius: 0px;
+  border-top-left-radius: 0px;
 }
