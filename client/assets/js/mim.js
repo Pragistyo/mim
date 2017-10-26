@@ -31,7 +31,7 @@ Vue.component('upload-button', {
 
 Vue.component('post', {
 
-  props: ['postCaption', 'postImageUrl', 'postVotes'],
+  props: ['postId', 'postCaption', 'postImageUrl', 'postVotes', 'postVoted'],
   template: `
 
   <div class="col-xs-12 post">
@@ -39,7 +39,8 @@ Vue.component('post', {
     <div class="thumbnail">
       <h3>{{ postCaption }}</h3>
       <img v-bind:src="postImageUrl" v-bind:alt="postCaption">
-      <a v-if="facebookId" href="#" class="btn btn-primary"><span class="fa fa-thumbs-o-up"></span> {{ postVotes }}</a>
+      <a v-on:click="vote(postId)" v-if="facebookId && !postVoted" href="#" class="btn btn-primary"><span class="fa fa-thumbs-o-up"></span> {{ postVotes }}</a>
+      <a v-on:click="downvote(postId)" v-if="facebookId && postVoted" href="#" class="btn btn-danger"><span class="fa fa-thumbs-o-down"></span> {{ postVotes }}</a>
     </div>
 
   </div> <!-- /.col-xs-12.post -->
@@ -48,6 +49,20 @@ Vue.component('post', {
 
   data: function () {
     return { facebookId: '' };
+  },
+
+  methods: {
+    vote (postId) {
+
+      alert('Vote post with _id of ' + postId);
+
+    },
+
+    downvote (postId) {
+
+      alert('Downvote post with _id of' + postId);
+
+    }
   },
 
   created () {
@@ -62,7 +77,7 @@ Vue.component('posts-section', {
   template: `
   <div class="row">
 
-    <post v-for="post in posts" :key="post.id" :postCaption="post.caption" :postImageUrl="post.imageUrl" :postVotes="post.votes">
+    <post v-for="post in posts" :key="post._id" :postId="post._id" :postCaption="post.caption" :postImageUrl="post.imageUrl" :postVotes="post.votes" :postVoted="post.voted">
 
     </post>
 
