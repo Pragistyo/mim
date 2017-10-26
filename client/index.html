@@ -34,8 +34,9 @@
             <li><a href="#">Fresh</a></li>
           </ul>
 
-          <ul class="nav navbar-nav navbar-right">
-            <p class="navbar-text">Signed in as <strong>Dimitri</strong></p>
+          <ul class="navbar-form navbar-right">
+            <fb:login-button scope="public_profile,email" data-max-rows="2" data-button-type="continue_with" data-size="medium" data-show-faces="false" data-auto-logout-link="true" data-use-continue-as="false" onlogin="checkLoginState();">
+            </fb:login-button>
           </ul>
 
           <form class="navbar-form navbar-right">
@@ -62,6 +63,10 @@
 <script src="assets/js/jquery-3.2.1.min.js"></script>
 <script src="assets/js/axios.min.js"></script>
 <script src="assets/js/bootstrap.min.js"></script>
+
+<script src="assets/js/login.js"></script>
+<script src="assets/js/senddata.js"></script>
+
 <script src="assets/js/mim.js"></script>
 
 </html>

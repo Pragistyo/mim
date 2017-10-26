@@ -6,13 +6,11 @@ function statusChangeCallback(response) {
     // for FB.getLoginStatus().
     if (response.status === 'connected') {
         // Logged into your app and Facebook.
-        localStorage.setItem("fbaccesstoken", response.authResponse.accessToken)
+        // localStorage.setItem("fbaccesstoken", response.authResponse.accessToken)
         testAPI();
     } else {
         // The person is not logged into your app or we are unable to tell.
         localStorage.clear()
-        document.getElementById('status').innerHTML = 'Please log ' +
-            'into this app.';
     }
 }
 
@@ -63,14 +61,7 @@ window.fbAsyncInit = function () {
 // Here we run a very simple test of the Graph API after login is
 // successful.  See statusChangeCallback() for when this call is made.
 function testAPI() {
-    console.log('Welcome!  Fetching your information.... ');
     FB.api('/me', { fields: ['id', 'name','email','picture.type(large)'] }, function (response) {
-        console.log('Successful login for: ' + response.name);
-        // console.log(typeof response.id);
-        localStorage.setItem('userdata', JSON.stringify({id:response.id, name:response.name, email:response.email, pictUrl:response.picture.data.url}))
-        document.getElementById('status').innerHTML =
-            'Thanks for logging in, ' + response.name + '!';
-
-        senddata();
+        localStorage.setItem('facebookId', response.id)
     });
 }

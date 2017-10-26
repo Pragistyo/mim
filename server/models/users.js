@@ -31,7 +31,7 @@ class UserCRUD{
             .then(user=>{
                 if (user) {
                     var token = jwt.sign({
-                        id:user._id,
+                        _id:user._id,
                         name:user.name,
                         email:user.email,
                         pictUrl:user.pictUrl
@@ -43,7 +43,7 @@ class UserCRUD{
                     user.save()
                         .then(user => {
                             var token = jwt.sign({
-                                id: user.id,
+                                _id: user._id,
                                 name: user.name,
                                 email: user.email,
                                 pictUrl: user.pictUrl

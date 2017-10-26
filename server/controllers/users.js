@@ -14,8 +14,7 @@ class UserCRUD {
     }
 
     static create(req, res) {
-        var body = JSON.parse(req.body.userdata);
-        // console.log(body);
+        var body = req.body.userdata;
         User.create(body, (user, err) => {
             if (err) res.send(err)
                 res.send(jwtToken)

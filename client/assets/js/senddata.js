@@ -1,8 +1,12 @@
-function senddata () {
+function senddata (response) {
 
     axios.post('http://localhost:3000/users', {
-        accessToken: localStorage.getItem("fbaccesstoken"),
-        userdata: localStorage.getItem("userdata")
+      userdata: {
+        id: response.id,
+        name: response.name,
+        email: response.email,
+        pictUrl: response.pictUrl
+      }
     })
     .then(function (response) {
         console.log(response);
