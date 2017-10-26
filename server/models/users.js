@@ -27,32 +27,36 @@ class UserCRUD{
     static create(body, cb) {
         User.findOne({id:body.id})
             .then(user=>{
-                var token = jwt.sign({
-                    id:user.id,
-                    name:user.name,
-                    email:user.email,
-                    pictUrl:user.pictUrl
-                }, key)
-                let jwtToken = { usertoken: token, message: 'User has login' }
-                cb(jwtToken)
+                if (user) {
+                    var token = jwt.sign({
+                        id:user._id,
+                        name:user.name,
+                        email:user.email,
+                        pictUrl:user.pictUrl
+                    }, key)
+                    let jwtToken = { usertoken: token, message: 'User has login' }
+                    cb(jwtToken)
+                } else {
+                    let user = new User(body)
+                    user.save()
+                        .then(user => {
+                            var token = jwt.sign({
+                                id: user.id,
+                                name: user.name,
+                                email: user.email,
+                                pictUrl: user.pictUrl
+                            }, key)
+                            // cb(user)
+                            let jwtToken = { usertoken: token, message: 'new user' }
+                            cb(jwtToken)
+                        })
+                        .catch(err => {
+                            cb(err)
+                        })
+                }
             })
             .catch(err=>{
-                let user = new User(body)
-                user.save()
-                    .then(user => {
-                        var token = jwt.sign({
-                            id: user.id,
-                            name: user.name,
-                            email: user.email,
-                            pictUrl: user.pictUrl
-                        }, key)
-                        // cb(user)
-                        let jwtToken = { usertoken: token, message: 'new user' }
-                        cb(jwtToken)
-                    })
-                    .catch(err => {
-                        cb(err)
-                    })
+                cb(err)
             })
     }
 
