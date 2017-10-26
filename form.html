@@ -24,8 +24,21 @@
 </head>
 <body>
     <div class="container" id="app">
-        <div>
-            <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open Modal</button>
+        <uploadfile></uploadfile>
+    </div>
+    <script>
+        Vue.component('uploadfile', {
+            template: `<div><div v-if="!image">
+            <button 
+            type="button" 
+            class="btn btn-info btn-lg" 
+            data-toggle="modal" 
+            data-target="#myModal"
+            @click="dismissModal"
+            >Open Modal</button>
+        </div>
+        <div v-else>
+            <button type="button" class="btn btn-warning bt-lg" @click="removeImage">Remove Image</button>
         </div>
         <div id="myModal" class="modal fade" role="dialog">
             <div class="modal-dialog">
@@ -39,7 +52,9 @@
                         </legend>
                     </div>
                     <div class="modal-body">
-                        <form action="" class="form-horizontal">
+                        <form 
+                        v-on:submit.prevent="createImage" 
+                        class="form-horizontal">
                             <fieldset>
                                 <div class="form-group">
                                     <label for="inputEmail" class="col-lg-2 control-label">Picture</label>
@@ -55,7 +70,10 @@
                                 <div class="form-group">
                                     <div class="col-lg-10 col-lg-offset-2">
                                         <div class="modal-footer">
-                                            <button type="submit" class="btn btn-primary">Submit</button>
+                                            <button 
+                                            type="submit" 
+                                            class="btn btn-primary"
+                                            >Submit</button>
                                             <button type="reset" class="btn btn-default" data-dismiss="modal">Cancel</button>
                                         </div>
                                     </div>
@@ -68,37 +86,85 @@
         </div>
         <div>
             <img :src="image" />asdasd
-        </div>
-    </div>
-    <script>
+        </div></div>`,
+        data: function () {
+            return {
+                image: '',
+                resultUpload: null,
+                closeModal: null
+            }
+        },
+        methods: {
+            onFileChange(e) {
+                // alert(JSON.stringify(e))
+                console.log(e)
+                var files = e.target.files || e.dataTransfer.files;
+
+                if (!files.length) {
+                    return;
+                }
+                this.resultUpload = files[0]
+                console.log(this.resultUpload)
+                // this.createImage(files[0]);
+            },
+            createImage(file) {
+                var image = new Image();
+                var reader = new FileReader();
+                var vm = this;
+
+                reader.onload = (e) => {
+                    vm.image = e.target.result;
+                };
+                // reader.readAsDataURL(file);
+                reader.readAsDataURL(this.resultUpload);
+                $('#myModal').modal('hide');
+            },
+            removeImage: function (e) {
+                this.image = '';
+            },
+            dismissModal: function () {
+                // this.closeModal = "modal"
+            }
+        }
+        })
         new Vue({
                 el: '#app',
                 data: {
-                    image: ''
+                    // image: '',
+                    // resultUpload: null,
+                    // closeModal: null
                 },
                 methods: {
-                    onFileChange(e) {
-                        alert(JSON.stringify(e))
-                        console.log(e)
-                        var files = e.target.files || e.dataTransfer.files;
+                    // onFileChange(e) {
+                    //     // alert(JSON.stringify(e))
+                    //     console.log(e)
+                    //     var files = e.target.files || e.dataTransfer.files;
 
-                        if (!files.length)
-                            return;
-                        this.createImage(files[0]);
-                    },
-                    createImage(file) {
-                        var image = new Image();
-                        var reader = new FileReader();
-                        var vm = this;
+                    //     if (!files.length){
+                    //         return;
+                    //     }
+                    //     this.resultUpload = files[0]
+                    //     console.log(this.resultUpload)
+                    //     // this.createImage(files[0]);
+                    // },
+                    // createImage(file) {
+                    //     var image = new Image();
+                    //     var reader = new FileReader();
+                    //     var vm = this;
 
-                        reader.onload = (e) => {
-                            vm.image = e.target.result;
-                        };
-                        reader.readAsDataURL(file);
-                    },
-                    removeImage: function (e) {
-                        this.image = '';
-                    }
+                    //     reader.onload = (e) => {
+                    //         vm.image = e.target.result;
+                    //     };
+                    //     // reader.readAsDataURL(file);
+                    //     reader.readAsDataURL(this.resultUpload);
+                    //     $('#myModal').modal('hide');
+                    // },
+                    // removeImage: function (e) {
+                    //     this.image = '';
+                    // },
+                    // dismissModal: function () {
+                    //     // this.closeModal = "modal"
+                    // }
                 }
             })
     </script>
