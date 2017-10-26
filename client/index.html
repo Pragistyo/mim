@@ -37,8 +37,7 @@
           </ul>
 
           <ul class="navbar-form navbar-right">
-            <button id="login-button" onclick="facebookLogin()" class="btn btn-primary">Login with Facebook</button>
-            <button id="logout-button" onclick="logout()" class="btn btn-danger">Logout</button>
+            <authentication-buttons />
           </ul>
 
           <form class="navbar-form navbar-right">
@@ -69,11 +68,5 @@
 <script src="assets/js/authentication.js"></script>
 
 <script src="assets/js/mim.js"></script>
-
-<script>
-  $(document).ready(function () {
-    facebookIdCheck();
-  });
-</script>
 
 </html>

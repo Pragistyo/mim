@@ -3,29 +3,10 @@ function setFBAccessToken (response) {
   if (response.status === 'connected') {
 
     localStorage.setItem('facebookId', response.authResponse.userID);
-    loggedInState();
+    location.reload();
 
   }
 
-}
-
-function loggedInState () {
-  $('#login-button').addClass('hidden');
-  $('#upload-button').removeClass('hidden');
-  $('#logout-button').removeClass('hidden');
-}
-
-function loggedOutState () {
-  $('#login-button').removeClass('hidden');
-  $('#upload-button').addClass('hidden');
-  $('#logout-button').addClass('hidden');
-}
-
-function facebookIdCheck () {
-  if (localStorage.getItem('facebookId'))
-    loggedInState();
-  else
-    loggedOutState();
 }
 
 function logout () {

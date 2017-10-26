@@ -1,3 +1,19 @@
+Vue.component('authentication-buttons', {
+  template: `
+    <button v-if="!facebookId" onclick="facebookLogin()" class="btn btn-primary">Login with Facebook</button>
+    <button v-else id="logout-button" onclick="logout()" class="btn btn-danger">Logout</button>
+  `,
+
+  data: function () {
+    return { facebookId: '' };
+  },
+
+  created () {
+    if (localStorage.getItem('facebookId'))
+      this.facebookId = localStorage.getItem('facebookId');
+  }
+});
+
 Vue.component('post', {
 
   props: ['postCaption', 'postImageUrl', 'postVotes'],
@@ -8,12 +24,21 @@ Vue.component('post', {
     <div class="thumbnail">
       <h3>{{ postCaption }}</h3>
       <img v-bind:src="postImageUrl" v-bind:alt="postCaption">
-      <a href="#" class="btn btn-primary"><span class="fa fa-thumbs-o-up"></span> {{ postVotes }}</a>
+      <a v-if="facebookId" href="#" class="btn btn-primary"><span class="fa fa-thumbs-o-up"></span> {{ postVotes }}</a>
     </div>
 
   </div> <!-- /.col-xs-12.post -->
 
-  `
+  `,
+
+  data: function () {
+    return { facebookId: '' };
+  },
+
+  created () {
+    if (localStorage.getItem('facebookId'))
+      this.facebookId = localStorage.getItem('facebookId');
+  }
 
 });
 
@@ -39,7 +64,7 @@ Vue.component('posts-section', {
 
     fetchposts () {
 
-      let URI = 'http://localhost:3000/posts';
+      let URI = 'http://localhost:3001/posts';
 
       axios
         .get(URI)
@@ -89,7 +114,7 @@ Vue.component('search-form', {
 
     search () {
 
-      let URI = `http://localhost:3000/posts/search?q=${this.keyword}`;
+      let URI = `http://localhost:3001/posts/search?q=${this.keyword}`;
 
       axios
         .get(URI)
