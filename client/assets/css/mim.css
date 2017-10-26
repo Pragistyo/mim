@@ -45,6 +45,10 @@ body {
   }
 }
 
+.hidden {
+  display: none;
+}
+
 .container-small, .container-large {
   max-width: 100%;
 }

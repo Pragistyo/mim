@@ -11,6 +11,8 @@
 </head>
 <body>
 
+  <script src="assets/js/fb-asyncinit.js"></script>
+
   <div id="app">
 
     <nav class="navbar navbar-inverse navbar-fixed-top">
@@ -35,12 +37,12 @@
           </ul>
 
           <ul class="navbar-form navbar-right">
-            <fb:login-button scope="public_profile,email" data-max-rows="2" data-button-type="continue_with" data-size="medium" data-show-faces="false" data-auto-logout-link="true" data-use-continue-as="false" onlogin="checkLoginState();">
-            </fb:login-button>
+            <button id="login-button" onclick="facebookLogin()" class="btn btn-primary">Login with Facebook</button>
+            <button id="logout-button" onclick="logout()" class="btn btn-danger">Logout</button>
           </ul>
 
           <form class="navbar-form navbar-right">
-            <a href="#" class="btn btn-primary"><span class="fa fa-plus"></span> Upload</a>
+            <a href="#" id="upload-button" class="btn btn-primary"><span class="fa fa-plus"></span> Upload</a>
           </form>
 
           <search-form></search-form>
@@ -64,9 +66,14 @@
 <script src="assets/js/axios.min.js"></script>
 <script src="assets/js/bootstrap.min.js"></script>
 
-<script src="assets/js/login.js"></script>
-<script src="assets/js/senddata.js"></script>
+<script src="assets/js/authentication.js"></script>
 
 <script src="assets/js/mim.js"></script>
+
+<script>
+  $(document).ready(function () {
+    facebookIdCheck();
+  });
+</script>
 
 </html>
