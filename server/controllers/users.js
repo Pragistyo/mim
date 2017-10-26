@@ -1,6 +1,5 @@
 const User = require('../models/users');
-const jwt = require('jsonwebtoken');
-const key = 'memegen'
+
 
 class UserCRUD {
     constructor() {
@@ -18,12 +17,8 @@ class UserCRUD {
         var body = JSON.parse(req.body.userdata);
         // console.log(body);
         User.create(body, (user, err) => {
-            if (err) {
-                res.send(err)
-            } else {
-                var token = jwt.sign({ userData: body }, key)
-                res.send(token)
-            }
+            if (err) res.send(err)
+                res.send(jwtToken)
         })
     }
 

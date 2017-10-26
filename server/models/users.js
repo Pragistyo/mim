@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+const jwt = require('jsonwebtoken');
+const key = 'memegen'
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
@@ -23,13 +25,34 @@ class UserCRUD{
     }
 
     static create(body, cb) {
-        let user = new User(body)
-        user.save()
-            .then(user => {
-                cb(user)
+        User.findOne({id:body.id})
+            .then(user=>{
+                var token = jwt.sign({
+                    id:user.id,
+                    name:user.name,
+                    email:user.email,
+                    pictUrl:user.pictUrl
+                }, key)
+                let jwtToken = { usertoken: token, message: 'User has login' }
+                cb(jwtToken)
             })
-            .catch(err => {
-                cb(err)
+            .catch(err=>{
+                let user = new User(body)
+                user.save()
+                    .then(user => {
+                        var token = jwt.sign({
+                            id: user.id,
+                            name: user.name,
+                            email: user.email,
+                            pictUrl: user.pictUrl
+                        }, key)
+                        // cb(user)
+                        let jwtToken = { usertoken: token, message: 'new user' }
+                        cb(jwtToken)
+                    })
+                    .catch(err => {
+                        cb(err)
+                    })
             })
     }
 
