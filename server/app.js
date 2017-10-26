@@ -7,6 +7,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 const cors = require('cors');
+const jwt = require('jsonwebtoken');
 
 // Connecting Database Mongo
 mongoose.connect('mongodb://localhost/memeBase', { useMongoClient: true },(err)=>{
