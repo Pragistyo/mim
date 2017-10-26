@@ -9,13 +9,13 @@ body {
 }
 
 @media (min-width: 552px) {
-  .meme a.btn {
+  .post a.btn {
     width: 500px!important;
     font-size: 24px!important;
   }
 }
 
-.meme a.btn {
+.post a.btn {
   width: 100%;
   font-size: 16px;
 }
@@ -68,11 +68,11 @@ body {
   height: auto;
 }
 
-.meme {
+.post {
   text-align: center;
 }
 
-.meme .btn {
+.post .btn {
   border-top-right-radius: 0px;
   border-top-left-radius: 0px;
 }
