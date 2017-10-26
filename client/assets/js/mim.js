@@ -14,6 +14,21 @@ Vue.component('authentication-buttons', {
   }
 });
 
+Vue.component('upload-button', {
+  template: `
+    <a v-if="facebookId" href="#" class="btn btn-primary"><span class="fa fa-plus"></span> Upload</a>
+  `,
+
+  data: function () {
+    return { facebookId: '' };
+  },
+
+  created () {
+    if (localStorage.getItem('facebookId'))
+      this.facebookId = localStorage.getItem('facebookId');
+  }
+});
+
 Vue.component('post', {
 
   props: ['postCaption', 'postImageUrl', 'postVotes'],
