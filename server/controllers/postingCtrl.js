@@ -24,6 +24,14 @@ class PostingCtrl {
         res.status(400).json(err);
       })
   }
+
+  static addPosting(req, res, next) {
+    // Send to Google cloud storage
+    Posting.create({
+
+    })
+    res.status(200).json(req.file);
+  }
 }
 
 module.exports = PostingCtrl;

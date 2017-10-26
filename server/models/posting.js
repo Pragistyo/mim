@@ -13,10 +13,10 @@ let postingSchema = new Schema({
     required: String
   },
   voter: [{
-    type: Schema.Types.ObjectId
+    type: String
   }],
   user: {
-    type: Schema.Types.ObjectId
+    type: String
   },
   createdAt: {
     type: Date,
@@ -64,7 +64,7 @@ postingSchema.virtual('isVoted')
     }
   })
   .set(function(user) {
-    this.user = mongoose.Types.ObjectId(user);
+    this.user = user;
   })
 
 module.exports = mongoose.model('Posting', postingSchema);
