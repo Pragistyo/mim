@@ -95,7 +95,7 @@ Vue.component('upload-modal', {
       let data = new FormData();
       data.append('caption', this.caption);
       data.append('image', this.resultUpload);
-      axios.post('http://localhost:3000/posts/add_post', data)
+      axios.post('http://api.mepawz.com/posts/add_post', data)
         .then(function(res) {
           location.reload();
         })
@@ -155,7 +155,7 @@ Vue.component('post', {
   methods: {
     vote (postId) {
 
-      axios.put('http://localhost:3000/posts/upvote', {
+      axios.put('http://api.mepawz.com/posts/upvote', {
         postId: postId,
         userId: localStorage.getItem('facebookId')
       })
@@ -171,7 +171,7 @@ Vue.component('post', {
 
     downvote (postId) {
 
-      axios.put('http://localhost:3000/posts/downvote', {
+      axios.put('http://api.mepawz.com/posts/downvote', {
         postId: postId,
         userId: localStorage.getItem('facebookId')
       })
