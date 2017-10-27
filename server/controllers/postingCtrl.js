@@ -2,27 +2,42 @@ const Posting = require('../models/posting');
 
 class PostingCtrl {
   static getPostings(req, res, next) {
-    Posting.find().exec()
-      .then((posts) => {
-        let result = [];
-        posts.forEach(post => {
-          post.set('isVoted', req.params.userId);
-          let row = {
-            "_id": post._id,
-            "imageUrl": post.imageUrl,
-            "caption": post.caption,
-            "votes": post.votes,
-            "voted": post.isVoted
-          }
-          result.push(row);
-          console.log('asdasd', row);
-        })
-        res.status(200).json(result);
-      })
-      .catch((err) => {
-        console.error(err);
+    Posting.aggregate([{
+        $project: {
+          imageUrl: 1,
+          caption: 1,
+          votes: {
+            $size: "$voter"
+          },
+          voted: {
+            $cond: [{
+                $in: [req.params.userId, "$voter"]
+              },
+              true,
+              false
+            ]
+          },
+          createdAt: 1
+        }
+      },
+      {
+        $sort: {
+          createdAt: -1,
+          votes: -1,
+        }
+      },
+      {
+        $skip: (req.params.page - 1) * req.params.count
+      },
+      {
+        $limit: parseInt(req.params.count)
+      }
+    ], function(err, result) {
+      if (err)
         res.status(400).json(err);
-      })
+      else
+        res.status(200).json(result);
+    })
   }
 
   static addPosting(req, res, next) {
