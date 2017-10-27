@@ -27,12 +27,6 @@ class PostingCtrl {
           createdAt: -1,
           votes: -1,
         }
-      },
-      {
-        $skip: (req.params.page - 1) * req.params.count
-      },
-      {
-        $limit: parseInt(req.params.count)
       }
     ], function(err, result) {
       if (err)
@@ -43,11 +37,19 @@ class PostingCtrl {
   }
 
   static addPosting(req, res, next) {
-    // Send to Google cloud storage
     Posting.create({
-
-    })
-    res.status(200).json(req.file);
+        caption: req.body.caption,
+        imageUrl: req.file.cloudStoragePublicUrl,
+        voter: [],
+        user: req.body.userId
+      })
+      .then((newPost) => {
+        res.status(200).json(newPost);
+      })
+      .catch((err) => {
+        console.error(err);
+        res.status(400).json(err);
+      })
   }
 
   static upvotePosting (req, res) {

@@ -1,11 +1,11 @@
 const express = require('express');
 const router = express.Router();
 
-const image = require('../helpers/image');
+const files = require('../helpers/files');
 const PostingCtrl = require('../controllers/postingCtrl');
 
-router.get('/:page/:count/:userId?', PostingCtrl.getPostings);
-router.post('/add_post', image.multer.single('image'), (req, res, next) => {
+router.get('/:userId?', PostingCtrl.getPostings);
+router.post('/add_post', files.multer.single('image'), files.sendUploadToGCS, (req, res, next) => {
   PostingCtrl.addPosting(req, res, next)
 });
 router.put('/upvote', PostingCtrl.upvotePosting);
