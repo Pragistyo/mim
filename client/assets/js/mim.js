@@ -14,20 +14,121 @@ Vue.component('authentication-buttons', {
   }
 });
 
+Vue.component('upload-modal', {
+  template: `
+    <div id="myModal" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <legend>
+              Upload File
+            </legend>
+          </div>
+          <div class="modal-body">
+            <form v-on:submit.prevent="createImage" class="form-horizontal">
+              <fieldset>
+                <div class="form-group">
+                  <label for="input-image" class="col-lg-2 control-label">Picture</label>
+                  <div class="col-md-8">
+                    <input name="input-image" type="file" class="form-control" id="upload" placeholder="File Picture" v-model="imageName" @change="onFileChange">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="caption" class="col-lg-2 control-label">Caption</label>
+                  <div class="col-md-8">
+                    <input name="caption" type="text" class="form-control" placeholder="Insert your caption" v-model="caption">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="col-lg-10 col-lg-offset-2">
+                    <div class="modal-footer">
+                      <button type="submit" class="btn btn-primary">Submit</button>
+                      <button type="reset" class="btn btn-default" data-dismiss="modal" @click="removeImage">Cancel</button>
+                    </div>
+                  </div>
+                </div>
+                <p class="lead text-center">{{ caption }}</p>
+                <a v-if="image !== ''" href="#" class="thumbnail">
+                              <img :src="image" :alt="image" />
+                            </a>
+              </fieldset>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  `,
+  data: function() {
+    return {
+      image: '',
+      resultUpload: null,
+      closeModal: null,
+      caption: '',
+      imageName: '',
+    }
+  },
+  methods: {
+    onFileChange(e) {
+      // alert(JSON.stringify(e))
+      console.log(e)
+      var files = e.target.files || e.dataTransfer.files;
+
+      if (!files.length) {
+        return;
+      }
+      this.resultUpload = files[0]
+      var image = new Image();
+      var reader = new FileReader();
+      var vm = this;
+
+      reader.onload = (e) => {
+        vm.image = e.target.result;
+      };
+      // reader.readAsDataURL(file);
+      reader.readAsDataURL(this.resultUpload);
+      // this.createImage(files[0]);
+    },
+    createImage(file) {
+      let data = new FormData();
+      data.append('caption', this.caption);
+      data.append('image', this.resultUpload);
+      axios.post('http://localhost:3000/posts/add_post', data)
+        .then(function(res) {
+          location.reload();
+        })
+        .catch(function(err) {
+          console.log(err);
+        });
+      $('#myModal').modal('hide');
+    },
+    removeImage: function(e) {
+      this.image = '';
+      this.imageName = '';
+      this.caption = '';
+    },
+    dismissModal: function() {
+      // this.closeModal = "modal"
+    }
+  }
+});
+
 Vue.component('upload-button', {
   template: `
-    <a v-if="facebookId" href="#" class="btn btn-primary"><span class="fa fa-plus"></span> Upload</a>
-  `,
-
-  data: function () {
-    return { facebookId: '' };
+    <button v-if="facebookId" type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal"><span class="fa fa-plus"></span> Upload</button>
+    `,
+  data: function() {
+    return {
+      facebookId: ''
+    }
   },
-
   created () {
     if (localStorage.getItem('facebookId'))
       this.facebookId = localStorage.getItem('facebookId');
   }
-});
+})
 
 Vue.component('post', {
 
@@ -114,7 +215,7 @@ Vue.component('posts-section', {
 
     fetchPosts () {
 
-      let URI = `http://localhost:3000/posts/1/5/${ localStorage.getItem('facebookId') }`;
+      let URI = `http://localhost:3000/posts/${ localStorage.getItem('facebookId') }`;
 
       axios
         .get(URI)
