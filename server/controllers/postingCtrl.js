@@ -1,4 +1,6 @@
 const Posting = require('../models/posting');
+let mongoose = require('mongoose');
+let Schema = mongoose.Schema;
 
 class PostingCtrl {
   static getPostings(req, res, next) {
@@ -47,6 +49,35 @@ class PostingCtrl {
     })
     res.status(200).json(req.file);
   }
+
+  static upvotePosting (req, res) {
+
+    Posting.findOneAndUpdate(
+      { _id: req.body.postId },
+      { $push: { voter: req.body.userId } }
+    )
+      .then((response) => {
+        res.status(200).json(response);
+      })
+      .catch((err) => {
+        res.status(400).json(err);
+      });
+  }
+
+  static downvotePosting (req, res) {
+
+    Posting.findOneAndUpdate(
+      { _id: req.body.postId },
+      { $pull: { voter: req.body.userId } }
+    )
+      .then((response) => {
+        res.status(200).json(response);
+      })
+      .catch((err) => {
+        res.status(400).json(err);
+      });
+  }
+
 }
 
 module.exports = PostingCtrl;
