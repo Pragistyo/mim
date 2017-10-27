@@ -215,7 +215,7 @@ Vue.component('posts-section', {
 
     fetchPosts () {
 
-      let URI = `http://localhost:3000/posts/${ localStorage.getItem('facebookId') }`;
+      let URI = `http://api.mepawz.com/posts/${ localStorage.getItem('facebookId') }`;
 
       axios
         .get(URI)
@@ -265,7 +265,7 @@ Vue.component('search-form', {
 
     search () {
 
-      let URI = `http://localhost:3000/posts/search?q=${this.keyword}`;
+      let URI = `http://api.mepawz.com/posts/search?q=${this.keyword}`;
 
       axios
         .get(URI)
