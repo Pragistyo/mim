@@ -1,3 +1,5 @@
+const path = require('path');
+
 const Storage = require('@google-cloud/storage');
 const CLOUD_BUCKET = process.env.CLOUD_BUCKET;
 const storage = Storage({
@@ -49,6 +51,17 @@ const Multer = require('multer'),
     storage: Multer.MemoryStorage,
     limits: {
       fileSize: 5 * 1024 * 1024
+    },
+    fileFilter: function (req, file, cb) {
+      var filetypes = /jpeg|jpg|png/;
+      var mimetype = filetypes.test(file.mimetype);
+      var extname = filetypes.test(path.extname(file.originalname).toLowerCase());
+
+      if (mimetype && extname) {
+        return cb(null, true);
+      }
+
+      cb("Error: File type not supported");
     }
   })
 
