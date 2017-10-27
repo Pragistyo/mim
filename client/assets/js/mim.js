@@ -33,13 +33,13 @@ Vue.component('upload-modal', {
                 <div class="form-group">
                   <label for="input-image" class="col-lg-2 control-label">Picture</label>
                   <div class="col-md-8">
-                    <input name="input-image" type="file" class="form-control" id="upload" placeholder="File Picture" v-model="imageName" @change="onFileChange">
+                    <input name="input-image" type="file" class="form-control" id="upload" placeholder="File Picture" v-model="imageName" @change="onFileChange" accept="image/*" required>
                   </div>
                 </div>
                 <div class="form-group">
                   <label for="caption" class="col-lg-2 control-label">Caption</label>
                   <div class="col-md-8">
-                    <input name="caption" type="text" class="form-control" placeholder="Insert your caption" v-model="caption">
+                    <input name="caption" type="text" class="form-control" placeholder="Insert your caption" v-model="caption" required>
                   </div>
                 </div>
                 <div class="form-group">
