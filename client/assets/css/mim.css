@@ -62,6 +62,10 @@ body {
   font-size: 24px;
 }
 
+.badge-info {
+  background-color: #3a87ad;
+}
+
 .thumbnail {
   border: none;
 }

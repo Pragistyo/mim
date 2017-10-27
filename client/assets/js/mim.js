@@ -37,10 +37,10 @@ Vue.component('post', {
   <div class="col-xs-12 post">
 
     <div class="thumbnail">
-      <h3>{{ postCaption }}</h3>
+      <h3>{{ postCaption }} <span class="badge badge-info"><span class="fa fa-thumbs-o-up"></span> {{ postVotes }}</span></h3>
       <img v-bind:src="postImageUrl" v-bind:alt="postCaption">
-      <a v-on:click="vote(postId)" v-if="facebookId && !postVoted" href="#" class="btn btn-primary"><span class="fa fa-thumbs-o-up"></span> {{ postVotes }}</a>
-      <a v-on:click="downvote(postId)" v-if="facebookId && postVoted" href="#" class="btn btn-danger"><span class="fa fa-thumbs-o-down"></span> {{ postVotes }}</a>
+      <a v-on:click="vote(postId)" v-if="facebookId && !postVoted" href="#" class="btn btn-primary"><span class="fa fa-thumbs-o-up"></span></a>
+      <a v-on:click="downvote(postId)" v-if="facebookId && postVoted" href="#" class="btn btn-danger"><span class="fa fa-thumbs-o-down"></span></a>
     </div>
 
   </div> <!-- /.col-xs-12.post -->
@@ -60,7 +60,7 @@ Vue.component('post', {
 
     downvote (postId) {
 
-      alert('Downvote post with _id of' + postId);
+      alert('Downvote post with _id of ' + postId);
 
     }
   },
