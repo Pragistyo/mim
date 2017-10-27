@@ -8,5 +8,7 @@ router.get('/:userId?', PostingCtrl.getPostings);
 router.post('/add_post', image.multer.single('image'), (req, res, next) => {
   PostingCtrl.addPosting(req, res, next)
 });
+router.put('/upvote', PostingCtrl.upvotePosting);
+router.put('/downvote', PostingCtrl.downvotePosting);
 
 module.exports = router;

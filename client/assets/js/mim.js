@@ -54,13 +54,33 @@ Vue.component('post', {
   methods: {
     vote (postId) {
 
-      alert('Vote post with _id of ' + postId);
+      axios.put('http://localhost:3000/posts/upvote', {
+        postId: postId,
+        userId: localStorage.getItem('facebookId')
+      })
+        .then((response) => {
+          this.postVoted = !this.postVoted;
+          this.postVotes += 1;
+        })
+        .catch((err) => {
+          console.error(err);
+        });
 
     },
 
     downvote (postId) {
 
-      alert('Downvote post with _id of ' + postId);
+      axios.put('http://localhost:3000/posts/downvote', {
+        postId: postId,
+        userId: localStorage.getItem('facebookId')
+      })
+        .then((response) => {
+          this.postVoted = !this.postVoted;
+          this.postVotes -= 1;
+        })
+        .catch((err) => {
+          console.error(err);
+        });
 
     }
   },
@@ -92,9 +112,9 @@ Vue.component('posts-section', {
 
   methods: {
 
-    fetchposts () {
+    fetchPosts () {
 
-      let URI = 'http://localhost:3001/posts';
+      let URI = `http://localhost:3000/posts/1/5/${ localStorage.getItem('facebookId') }`;
 
       axios
         .get(URI)
@@ -115,7 +135,7 @@ Vue.component('posts-section', {
 
   created () {
 
-    this.fetchposts();
+    this.fetchPosts();
 
   }
 
@@ -144,7 +164,7 @@ Vue.component('search-form', {
 
     search () {
 
-      let URI = `http://localhost:3001/posts/search?q=${this.keyword}`;
+      let URI = `http://localhost:3000/posts/search?q=${this.keyword}`;
 
       axios
         .get(URI)
