@@ -24,8 +24,8 @@ class PostingCtrl {
       },
       {
         $sort: {
-          createdAt: -1,
           votes: -1,
+          createdAt: -1,
         }
       }
     ], function(err, result) {
